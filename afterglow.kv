@@ -1,0 +1,136 @@
+#:import dp kivy.metrics.dp
+
+<LogScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.0, 0.0, 0.0, 1  # Deep black background
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(15)
+
+        Spinner:
+            id: substance_spinner
+            text: "Select Substance"
+            values: []
+            size_hint_y: None
+            height: dp(45)
+            font_name: "Orbitron"
+            color: 1, 1, 1, 1  # Neon white text
+            background_normal: ''
+            background_color: 1, 0.5, 0, 1  # Neon orange
+            on_text: root.on_substance_selected(self.text)
+
+        TextInput:
+            id: dose_input
+            hint_text: "Enter dose"
+            multiline: False
+            input_filter: "float"
+            size_hint_y: None
+            height: dp(45)
+            font_name: "Orbitron"
+            foreground_color: 1, 1, 1, 1
+            background_normal: ''
+            background_color: 0, 0.1, 0.15, 1
+            cursor_color: 0, 0.7, 0.7, 1
+
+        TextInput:
+            id: time_input
+            hint_text: "Enter time (optional)"
+            multiline: False
+            size_hint_y: None
+            height: dp(45)
+            font_name: "Orbitron"
+            foreground_color: 1, 1, 1, 1
+            background_normal: ''
+            background_color: 0, 0.1, 0.15, 1
+            cursor_color: 0, 0.7, 0.7, 1
+
+        TextInput:
+            id: meal_input
+            hint_text: "Notes"
+            multiline: False
+            size_hint_y: None
+            height: dp(45)
+            font_name: "Orbitron"
+            foreground_color: 1, 1, 1, 1
+            background_normal: ''
+            background_color: 0, 0.1, 0.15, 1
+            cursor_color: 0, 0.7, 0.7, 1
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
+
+            Button:
+                text: "Add Entry"
+                font_name: "Orbitron"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_release: root.add_entry()
+
+            Button:
+                text: "Clear History"
+                font_name: "Orbitron"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_release: history_label.text = ""
+
+        ScrollView:
+            do_scroll_x: False
+
+            Label:
+                id: history_label
+                text: ""
+                font_name: "Orbitron"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                valign: "top"
+                halign: "left"
+                markup: True
+                color: 1, 1, 1, 1
+
+<CommunityScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.0, 0.0, 0.0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        Label:
+            text: "Join the Community on Discord!"
+            font_name: "Orbitron"
+            font_size: dp(28)
+            color: 0.5, 1, 1, 1
+
+        Button:
+            text: "Open Discord"
+            size_hint_y: None
+            height: dp(50)
+            background_normal: ''
+            background_color: 1, 0.5, 0, 1
+            color: 0, 0, 0, 1
+
+        Button:
+            text: "Back to Log"
+            size_hint_y: None
+            height: dp(50)
+            background_normal: ''
+            background_color: 0, 0.5, 0.5, 1
+            color: 1, 1, 1, 1
+            on_release:
+                app.root.current = "log_screen"
