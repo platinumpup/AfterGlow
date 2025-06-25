@@ -18,6 +18,9 @@ import json
 import hashlib
 from datetime import datetime
 
+from kivy.core.window import Window
+Window.size = (360, 640)
+
 APP_VERSION = "v2.0"
 
 def check_for_update():
