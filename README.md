@@ -95,7 +95,7 @@ Support & Contributions
 
 ---
 
-AfterGlow v1.3©
+AfterGlow v2.0©
 
 
 =======
