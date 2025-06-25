@@ -1,9 +1,262 @@
 #:import dp kivy.metrics.dp
 
-<LogScreen>:
+ScreenManager:
+    SplashScreen:
+        name: "splash_screen"
+    CommunityScreen:
+        name: "community_screen"
+    LogScreen:
+        name: "log_screen"
+    ReadMeScreen:
+        name: "readme_screen"
+
+<SplashScreen>:
     canvas.before:
         Color:
-            rgba: 0.0, 0.0, 0.0, 1  # Deep black background
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: None, None
+        size: dp(300), dp(300)
+
+        Label:
+            id: afterglow_label
+            text: "afterGlow"
+            font_name: "EncodeSansSC"
+            font_size: dp(60)
+            color: 0, 1, 1, self.opacity
+            opacity: 0
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: None, None
+        size: dp(300), dp(300)
+
+        FloatLayout:
+            id: slogan_area
+            size_hint_y: None
+            height: dp(50)
+            color: 0, 1, 1, self.opacity
+            opacity: 0.5
+
+        BoxLayout:
+            id: options_box
+            orientation: "vertical"
+            spacing: dp(10)
+            size_hint_y: None
+            height: dp(100)
+            opacity: 0
+
+            Button:
+                text: "Login"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: open_loginpopup()
+
+            Button:
+                text: "Sign Up"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.5, 0, 1
+                color: 0, 0, 0, 1
+                on_press: root.open_signuppopup()
+
+            Button:
+                text: "Skip"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                color: 1, 1, 1, 1
+                size_hint_y: None
+                height: dp(30)
+                on_release: app.root.current = "community_screen"
+
+<LoginPopup>:
+    username_input: username_input
+    password_input: password_input
+    login_status: login_status
+    title: ""
+    size_hint: 0.85, 0.6
+    auto_dismiss: False
+    background: ''  # Remove default background
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 0.7  # semi-transparent "blur" look
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(10)
+
+        Label:
+            text: "Login"
+            font_name: "EncodeSansSC"
+            font_size: dp(24)
+            color: 0, 1, 1, 1
+
+        TextInput:
+            id: username_input
+            hint_text: "Username"
+            multiline: False
+            font_name: "EncodeSansSC"
+            size_hint_y: None
+            height: dp(40)
+
+        TextInput:
+            id: password_input
+            hint_text: "Password"
+            multiline: False
+            password: True
+            font_name: "EncodeSansSC"
+            size_hint_y: None
+            height: dp(40)
+
+        Label:
+            id: login_status
+            text: ""
+            markup: True
+            font_name: "EncodeSansSC"
+            color: 1, 0, 0, 1
+
+        Button:
+            text: "Login"
+            font_name: "EncodeSansSC"
+            background_normal: ''
+            background_color: 0, 0.5, 0.5, 1
+            color: 1, 1, 1, 1
+            on_release: root.try_login()
+
+        Button:
+            text: "Cancel"
+            font_name: "EncodeSansSC"
+            background_normal: ''
+            background_color: 1, 0.3, 0.3, 1
+            color: 1, 1, 1, 1
+            on_release: root.dismiss()
+
+<SignUpPopup>:
+    new_username_input: new_username_input
+    new_password_input: new_password_input
+    signup_status: signup_status
+    title: "Sign Up"
+    size_hint: 0.85, 0.6
+    auto_dismiss: False
+    background: ''
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(10)
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 0.7
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        TextInput:
+            id: new_username_input
+            hint_text: "Username"
+            multiline: False
+            font_name: "EncodeSansSC"
+
+        TextInput:
+            id: new_password_input
+            hint_text: "Password"
+            multiline: False
+            password: True
+            font_name: "EncodeSansSC"
+
+        Label:
+            id: signup_status
+            text: ""
+            color: 1, 0, 0, 1
+            font_name: "EncodeSansSC"
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
+
+            Button:
+                text: "Sign Up"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.5, 0, 1
+                color: 0, 0, 0, 1
+                on_release: root.try_signup()
+
+            Button:
+                text: "Cancel"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.3, 0.3, 1
+                color: 1, 1, 1, 1
+                on_release: root.dismiss()
+
+<SkipPopup>:
+    title: "Skip Login Confirmation"
+    size_hint: 0.8, 0.4
+    auto_dismiss: False
+    background: ''
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 0.7
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "If you skip login, your dose tracker information will not be recorded. Are you sure?"
+            font_name: "EncodeSansSC"
+            font_size: dp(16)
+            halign: "center"
+            valign: "middle"
+            text_size: self.width - dp(20), None
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
+
+            Button:
+                text: "Yes, I'm sure"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.3, 0.3, 1
+                color: 1, 1, 1, 1
+                on_release:
+                    root.proceed_skip()
+
+            Button:
+                text: "Back"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_release: root.dismiss()
+
+<CommunityScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
         Rectangle:
             pos: self.pos
             size: self.size
@@ -13,16 +266,137 @@
         padding: dp(20)
         spacing: dp(15)
 
+        Label:
+            text: "afterGlow"
+            font_name: "EncodeSansSC"
+            font_size: dp(42)
+            color: 0, 1, 1, 1
+
+        Label:
+            text: "Join the Community Discord Server today!"
+            font_name: "EncodeSansSC"
+            font_size: dp(18)
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]  # adjust height to fit wrapped text
+            valign: 'top'
+            halign: 'center'
+            color: 0.5, 1, 1, 1
+
+        Widget:
+            size_hint_y: None
+            height: dp(30)
+
+        Button:
+            text: "Open Discord"
+            font_name: "EncodeSansSC"
+            size_hint_y: None
+            height: dp(50)
+            background_normal: ''
+            background_color: 1, 0.5, 0, 1
+            color: 1, 1, 1, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 1, 1, 1
+                Line:
+                    width: 2
+                    rectangle: (self.x, self.y, self.width, self.height)
+
+        Button:
+            text: "Sign Out"
+            font_name: "EncodeSansSC"
+            size_hint_y: None
+            height: dp(50)
+            background_normal: ''
+            background_color: 0, 0.5, 0.5, 1
+            color: 1, 1, 1, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 1, 1, 1
+                Line:
+                    width: 2
+                    rectangle: (self.x, self.y, self.width, self.height)
+            on_release:
+                app.root.get_screen("main_screen")
+
+        # Nav bar
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(5)
+            padding: dp(5)
+
+            Button:
+                text: "Community"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "community_screen"
+
+            Button:
+                text: "DoseTracker©"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.5, 0, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (1, 0.5, 0, 1)
+                    app.root.current = "log_screen"
+
+
+            Button:
+                text: "ReadMe"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "readme_screen"
+
+<LogScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(15)
+
+        Label:
+            text: "DoseTracker©"
+            font_name: "EncodeSansSC"
+            font_size: dp(42)
+            color: 0, 1, 1, 1
+
         Spinner:
             id: substance_spinner
             text: "Select Substance"
             values: []
             size_hint_y: None
             height: dp(45)
-            font_name: "Orbitron"
-            color: 1, 1, 1, 1  # Neon white text
+            font_name: "EncodeSansSC"
+            color: 1, 1, 1, 1
             background_normal: ''
-            background_color: 1, 0.5, 0, 1  # Neon orange
+            background_color: 1, 0.5, 0, 1
+            option_cls: 'CustomSpinnerOption'
+            canvas.before:
+                Color:
+                    rgba: 1, 0.5, 0, 0.3
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [0]
             on_text: root.on_substance_selected(self.text)
 
         TextInput:
@@ -32,35 +406,53 @@
             input_filter: "float"
             size_hint_y: None
             height: dp(45)
-            font_name: "Orbitron"
+            font_name: "EncodeSansSC"
             foreground_color: 1, 1, 1, 1
             background_normal: ''
             background_color: 0, 0.1, 0.15, 1
             cursor_color: 0, 0.7, 0.7, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0.5, 0.5, 1
+                Line:
+                    width: 1.5
+                    rectangle: (self.x, self.y, self.width, self.height)
 
         TextInput:
             id: time_input
-            hint_text: "Enter time (optional)"
+            hint_text: "When? (leave empty for current time)"
             multiline: False
             size_hint_y: None
             height: dp(45)
-            font_name: "Orbitron"
+            font_name: "EncodeSansSC"
             foreground_color: 1, 1, 1, 1
             background_normal: ''
             background_color: 0, 0.1, 0.15, 1
             cursor_color: 0, 0.7, 0.7, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0.5, 0.5, 1
+                Line:
+                    width: 1.5
+                    rectangle: (self.x, self.y, self.width, self.height)
 
         TextInput:
             id: meal_input
-            hint_text: "Notes"
+            hint_text: "Mood/Notes"
             multiline: False
             size_hint_y: None
             height: dp(45)
-            font_name: "Orbitron"
+            font_name: "EncodeSansSC"
             foreground_color: 1, 1, 1, 1
             background_normal: ''
             background_color: 0, 0.1, 0.15, 1
             cursor_color: 0, 0.7, 0.7, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 0.5, 0.5, 1
+                Line:
+                    width: 1.5
+                    rectangle: (self.x, self.y, self.width, self.height)
 
         BoxLayout:
             size_hint_y: None
@@ -68,28 +460,46 @@
             spacing: dp(10)
 
             Button:
-                text: "Add Entry"
-                font_name: "Orbitron"
+                text: "Add"
+                font_name: "EncodeSansSC"
                 background_normal: ''
                 background_color: 0, 0.5, 0.5, 1
                 color: 1, 1, 1, 1
-                on_release: root.add_entry()
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 1, 1
+                    Line:
+                        width: 2
+                        rectangle: (self.x, self.y, self.width, self.height)
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    root.add_entry()
 
             Button:
                 text: "Clear History"
-                font_name: "Orbitron"
+                font_name: "EncodeSansSC"
                 background_normal: ''
                 background_color: 0, 0.5, 0.5, 1
                 color: 1, 1, 1, 1
-                on_release: history_label.text = ""
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 1, 1
+                    Line:
+                        width: 2
+                        rectangle: (self.x, self.y, self.width, self.height)
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    root.ids.history_label.text = ""
+                    app.dosage_log = {substance: [] for substance in app.dosage_log.keys()}
 
         ScrollView:
             do_scroll_x: False
-
             Label:
                 id: history_label
                 text: ""
-                font_name: "Orbitron"
+                font_name: "EncodeSansSC"
                 size_hint_y: None
                 height: self.texture_size[1]
                 text_size: self.width, None
@@ -98,10 +508,52 @@
                 markup: True
                 color: 1, 1, 1, 1
 
-<CommunityScreen>:
+        # Nav bar
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(5)
+            padding: dp(5)
+
+            Button:
+                text: "Community"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "community_screen"
+
+            Button:
+                text: "DoseTracker©"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.5, 0, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (1, 0.5, 0, 1)
+                    app.root.current = "log_screen"
+
+
+            Button:
+                text: "ReadMe"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "readme_screen"
+
+<ReadmeScreen>:
+    name: "readme_screen"
     canvas.before:
         Color:
-            rgba: 0.0, 0.0, 0.0, 1
+            rgba: 0, 0, 0, 1
         Rectangle:
             pos: self.pos
             size: self.size
@@ -109,28 +561,70 @@
     BoxLayout:
         orientation: "vertical"
         padding: dp(20)
-        spacing: dp(20)
+        spacing: dp(10)
 
-        Label:
-            text: "Join the Community on Discord!"
-            font_name: "Orbitron"
-            font_size: dp(28)
-            color: 0.5, 1, 1, 1
-
-        Button:
-            text: "Open Discord"
-            size_hint_y: None
-            height: dp(50)
-            background_normal: ''
-            background_color: 1, 0.5, 0, 1
-            color: 0, 0, 0, 1
+        ScrollView:
+            do_scroll_x: False
+            Label:
+                id: readme_label
+                text: app.readme_text
+                color: 1, 1, 1, 1
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: "center"
+                valign: "top"
 
         Button:
-            text: "Back to Log"
+            text: "< Back"
             size_hint_y: None
-            height: dp(50)
+            height: dp(80)
             background_normal: ''
-            background_color: 0, 0.5, 0.5, 1
+            background_color: 0, 0, 0, 0
             color: 1, 1, 1, 1
-            on_release:
-                app.root.current = "log_screen"
+            on_release: on_release: app.root.current = "splash_screen"
+
+        # Nav bar
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(5)
+            padding: dp(5)
+
+            Button:
+                text: "Community"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "community_screen"
+
+            Button:
+                text: "DoseTracker©"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 1, 0.5, 0, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (1, 0.5, 0, 1)
+                    app.root.current = "log_screen"
+
+
+            Button:
+                text: "ReadMe"
+                font_name: "EncodeSansSC"
+                background_normal: ''
+                background_color: 0, 0.5, 0.5, 1
+                color: 1, 1, 1, 1
+                on_press: self.background_color = (0, 0.7, 0.7, 1)
+                on_release:
+                    self.background_color = (0, 0.5, 0.5, 1)
+                    app.root.current = "readme_screen"
+
+<CustomSpinnerOption@SpinnerOption>:
+    background_color: 1, 0.5, 0, 0.5
+    color: 1, 1, 1, 1
