@@ -60,6 +60,32 @@ coverage.xml
 # Kivy build artifacts
 *.kivy_cache/
 
+# Kivy temp / compiled assets
+*.atlas
+*.kv~ 
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mac system files
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# User data (if you don't want this on GitHub)
+userdata.json
+
+# App build outputs
+*.apk
+*.exe
+*.app
+
+# Logs (if your app generates any)
+*.log
+
 # pyenv
 .python-version
 
@@ -69,12 +95,6 @@ coverage.xml
 env/
 venv/
 ENV/
-
-# Mac system files
-.DS_Store
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
 
 # Ignore pycache
 __pycache__/
